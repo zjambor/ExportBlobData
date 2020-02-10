@@ -11,20 +11,21 @@ import java.sql.*;
 public class Main {
 
     private static int ind = 0;
+    private static String userHome = System.getProperty("user.home");
 
     public static void main(String[] args) throws IOException {
 
         long start = System.currentTimeMillis();
         var connectionstring = "";
 
-        var path = Paths.get("d:\\blob_conf.txt");
+        var path = Paths.get(userHome + "/blob_conf.txt");
         try {
             connectionstring = Files.readString(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        path = Paths.get("d:\\photos.txt");
+        path = Paths.get(userHome + "/photos.txt");
         var content = "";
         try {
             Files.write(path, content.getBytes(), StandardOpenOption.CREATE);
@@ -36,7 +37,7 @@ public class Main {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con = DriverManager.getConnection(connectionstring);
 
-            Worker(con, "20170901000000", "20170901120000");
+            Worker(con, "20170901000000", "20170902000000");
 //            Worker(con, "20190301", "20190301");
 //            Worker(con, "20190401", "20190401");
 //            Worker(con, "20190501", "20190501");
@@ -45,7 +46,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Computation lasted " + (System.currentTimeMillis() - start)/1000/60 + " minutes.");
+        System.out.println("Computation lasted " + (System.currentTimeMillis() - start) / 1000 / 60 + " minutes.");
     }
 
     /*
@@ -61,7 +62,7 @@ public class Main {
         long CREATE_USER_DATE = 0;
         var url = "";
 
-        Path path = Paths.get("d:\\photos.txt");
+        Path path = Paths.get(userHome + "/photos.txt");
         var content = "";
 
         PreparedStatement ps = con.prepareStatement("select id, url, foto, CREATE_USER_ID, CREATE_USER_DATE from lksz.fotok where CREATE_USER_DATE>='" + d1 + "' and CREATE_USER_DATE<='" + d2 + "' order by id");
@@ -75,11 +76,11 @@ public class Main {
             Blob b = rs.getBlob(3);        //2 means 2nd column data
             byte barr[] = b.getBytes(1, (int) b.length());    //1 means first image
 
-            FileOutputStream fout = new FileOutputStream("d:\\photos\\" + url);
+            FileOutputStream fout = new FileOutputStream(userHome + "/photos/" + url);
             fout.write(barr);
 
             fout.close();
-            System.out.println(ind + ": d:\\photos\\" + url);
+            System.out.println(ind + ": " + userHome + "/photos/" + url);
             ind++;
             content = id + "|" + url + "|" + CREATE_USER_ID + "|" + CREATE_USER_DATE + "\n";
             try {

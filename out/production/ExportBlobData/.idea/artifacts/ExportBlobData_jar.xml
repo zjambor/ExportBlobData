@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ExportBlobData:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ExportBlobData_jar</output-path>
+    <root id="archive" name="ExportBlobData.jar">
+      <element id="module-output" name="ExportBlobData" />
+      <element id="extracted-dir" path="D:/jar lib/OJDBC8-Full/ojdbc8.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
