@@ -84,11 +84,11 @@ public class Main {
             Blob b = rs.getBlob(3);        //2 means 2nd column data
             byte barr[] = b.getBytes(1, (int) b.length());    //1 means first image
 
-            FileOutputStream fout = new FileOutputStream(userHome + "/photos/" + url);
+            FileOutputStream fout = new FileOutputStream("/export/photos/" + url,false);
             fout.write(barr);
 
             fout.close();
-            System.out.println(ind + ": " + userHome + "/photos/" + url);
+            System.out.println(ind + ": " + "/export/photos/" + url);
             ind++;
             content = id + "|" + url + "|" + CREATE_USER_ID + "|" + CREATE_USER_DATE + "\n";
             try {

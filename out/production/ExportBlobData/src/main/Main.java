@@ -37,10 +37,18 @@ public class Main {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con = DriverManager.getConnection(connectionstring);
 
-            Worker(con, "20170901000000", "20170902000000");
-//            Worker(con, "20190301", "20190301");
-//            Worker(con, "20190401", "20190401");
-//            Worker(con, "20190501", "20190501");
+            Worker(con, "20170901000000", "20171001000000");
+            Worker(con, "20171001000000", "20171101000000");
+            Worker(con, "20171101000000", "20171201000000");
+            Worker(con, "20171201000000", "20180101000000");
+            Worker(con, "20180101000000", "20180201000000");
+            Worker(con, "20180201000000", "20180301000000");
+            Worker(con, "20180301000000", "20180401000000");
+            Worker(con, "20180401000000", "20180501000000");
+            Worker(con, "20180501000000", "20180601000000");
+            Worker(con, "20180601000000", "20180701000000");
+            Worker(con, "20180701000000", "20180801000000");
+            Worker(con, "20180801000000", "20180901000000");
 
             con.close();
         } catch (Exception e) {
@@ -65,7 +73,7 @@ public class Main {
         Path path = Paths.get(userHome + "/photos.txt");
         var content = "";
 
-        PreparedStatement ps = con.prepareStatement("select id, url, foto, CREATE_USER_ID, CREATE_USER_DATE from lksz.fotok where CREATE_USER_DATE>='" + d1 + "' and CREATE_USER_DATE<='" + d2 + "' order by id");
+        PreparedStatement ps = con.prepareStatement("select id, url, foto, CREATE_USER_ID, CREATE_USER_DATE from lksz.fotok where CREATE_USER_DATE>='" + d1 + "' and CREATE_USER_DATE<'" + d2 + "' order by id");
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             id = rs.getInt(1);
@@ -76,11 +84,11 @@ public class Main {
             Blob b = rs.getBlob(3);        //2 means 2nd column data
             byte barr[] = b.getBytes(1, (int) b.length());    //1 means first image
 
-            FileOutputStream fout = new FileOutputStream(userHome + "/photos/" + url);
+            FileOutputStream fout = new FileOutputStream("/export/photos/" + url,false);
             fout.write(barr);
 
             fout.close();
-            System.out.println(ind + ": " + userHome + "/photos/" + url);
+            System.out.println(ind + ": " + "/export/photos/" + url);
             ind++;
             content = id + "|" + url + "|" + CREATE_USER_ID + "|" + CREATE_USER_DATE + "\n";
             try {
