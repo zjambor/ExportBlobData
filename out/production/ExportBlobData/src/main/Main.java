@@ -18,7 +18,7 @@ public class Main {
         long start = System.currentTimeMillis();
         var connectionstring = "";
 
-        var path = Paths.get(userHome + "/blob_conf.txt");
+        var path = Paths.get(userHome + "/eles_conf.txt");
         try {
             connectionstring = Files.readString(path);
         } catch (IOException e) {
@@ -73,7 +73,7 @@ public class Main {
         Path path = Paths.get(userHome + "/photos.txt");
         var content = "";
 
-        PreparedStatement ps = con.prepareStatement("select id, url, foto, CREATE_USER_ID, CREATE_USER_DATE from lksz.fotok where CREATE_USER_DATE>='" + d1 + "' and CREATE_USER_DATE<'" + d2 + "' order by id");
+        PreparedStatement ps = con.prepareStatement("select id, url, foto, CREATE_USER_ID, CREATE_USER_DATE from fotok where CREATE_USER_DATE>='" + d1 + "' and CREATE_USER_DATE<'" + d2 + "' order by id");
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             id = rs.getInt(1);
@@ -84,11 +84,11 @@ public class Main {
             Blob b = rs.getBlob(3);        //2 means 2nd column data
             byte barr[] = b.getBytes(1, (int) b.length());    //1 means first image
 
-            FileOutputStream fout = new FileOutputStream("/export/photos/" + url,false);
+            FileOutputStream fout = new FileOutputStream("/export/" + url);
             fout.write(barr);
 
             fout.close();
-            System.out.println(ind + ": " + "/export/photos/" + url);
+            System.out.println(ind + ": " + "/export/" + url);
             ind++;
             content = id + "|" + url + "|" + CREATE_USER_ID + "|" + CREATE_USER_DATE + "\n";
             try {
