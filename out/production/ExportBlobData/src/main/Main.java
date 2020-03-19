@@ -37,18 +37,8 @@ public class Main {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con = DriverManager.getConnection(connectionstring);
 
-            Worker(con, "20170901000000", "20171001000000");
-            Worker(con, "20171001000000", "20171101000000");
-            Worker(con, "20171101000000", "20171201000000");
-            Worker(con, "20171201000000", "20180101000000");
-            Worker(con, "20180101000000", "20180201000000");
-            Worker(con, "20180201000000", "20180301000000");
-            Worker(con, "20180301000000", "20180401000000");
-            Worker(con, "20180401000000", "20180501000000");
-            Worker(con, "20180501000000", "20180601000000");
-            Worker(con, "20180601000000", "20180701000000");
-            Worker(con, "20180701000000", "20180801000000");
-            Worker(con, "20180801000000", "20180901000000");
+            Worker(con, "20190926000000", "20191101000000");
+            Worker(con, "20191101000000", "20191201000000");
 
             con.close();
         } catch (Exception e) {
