@@ -63,7 +63,7 @@ public class Main {
         Path path = Paths.get(userHome + "/photos.txt");
         var content = "";
 
-        PreparedStatement ps = con.prepareStatement("select id, url, foto, CREATE_USER_ID, CREATE_USER_DATE from fotok where CREATE_USER_DATE>='" + d1 + "' and CREATE_USER_DATE<'" + d2 + "' order by id");
+        PreparedStatement ps = con.prepareStatement("select id, url, foto, CREATE_USER_ID, CREATE_USER_DATE from lksz.fotok where CREATE_USER_DATE>='" + d1 + "' and CREATE_USER_DATE<'" + d2 + "' order by id");
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             id = rs.getInt(1);
@@ -71,14 +71,20 @@ public class Main {
             CREATE_USER_ID = rs.getInt(4);
             CREATE_USER_DATE = rs.getLong(5);
 
-            Blob b = rs.getBlob(3);        //2 means 2nd column data
-            byte barr[] = b.getBytes(1, (int) b.length());    //1 means first image
+            try {
+                Blob b = rs.getBlob(3);        //2 means 2nd column data
+                if (b != null) {
+                    byte barr[] = b.getBytes(1, (int) b.length());    //1 means first image
 
-            FileOutputStream fout = new FileOutputStream("/export/" + url);
-            fout.write(barr);
+                    FileOutputStream fout = new FileOutputStream("/export/exp/" + url);
+                    fout.write(barr);
 
-            fout.close();
-            System.out.println(ind + ": " + "/export/" + url);
+                    fout.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            System.out.println(ind + ": " + "/export/exp/" + url);
             ind++;
             content = id + "|" + url + "|" + CREATE_USER_ID + "|" + CREATE_USER_DATE + "\n";
             try {
